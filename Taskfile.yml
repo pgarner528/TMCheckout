@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  build:
+    desc: "Build Checkout.exe"
+    cmds: 
+      - go build -o bin/Checkout.exe
+
+  run:
+    desc: "Build and Run Checkout.exe"
+    cmds:
+      - task: build
+      - ./bin/Checkout.exe
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - go test -v ./...

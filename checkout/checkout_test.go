@@ -83,3 +83,35 @@ func TestSimplePricing(t *testing.T) {
 		t.Errorf("Incorrect value in cart -should be 0, actual %d", i)
 	}
 }
+
+type AddItem struct {
+	item         string
+	runningTotal int
+}
+
+func TestMultibuyPricing(t *testing.T) {
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.MultibuyPricer{}}
+	testSlice := []AddItem{
+		{item: "A", runningTotal: 50},
+		{item: "B", runningTotal: 80},
+		{item: "B", runningTotal: 95},
+		{item: "B", runningTotal: 125},
+		{item: "A", runningTotal: 175},
+		{item: "A", runningTotal: 205},
+		{item: "C", runningTotal: 225},
+		{item: "D", runningTotal: 240},
+	}
+	for _, itemPrice := range testSlice {
+		err := testCart.Scan(itemPrice.item)
+		if err != nil {
+			t.Errorf("Error returned on scan %s", err.Error())
+		}
+		i, err := testCart.GetTotalPrice()
+		if err != nil {
+			t.Errorf("Error returned on GetTotalPrice %s", err.Error())
+		}
+		if i != itemPrice.runningTotal {
+			t.Errorf("Incorrect value in cart -should be %d, actual %d", itemPrice.runningTotal, i)
+		}
+	}
+}

@@ -46,3 +46,40 @@ func TestNoPricing(t *testing.T) {
 		t.Errorf("Incorrect value in cart -should be 0")
 	}
 }
+
+func TestSimplePricing(t *testing.T) {
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.SimplePricer{}}
+	err := testCart.Scan("A")
+	if err != nil {
+		t.Errorf("Error returned on scan %s", err.Error())
+	}
+	i, err := testCart.GetTotalPrice()
+	if err != nil {
+		t.Errorf("Error returned on GetTotalPrice %s", err.Error())
+	}
+	if i != 50 {
+		t.Errorf("Incorrect value in cart -should be 50, actual %d", i)
+	}
+	err = testCart.Scan("B")
+	if err != nil {
+		t.Errorf("Error returned on scan %s", err.Error())
+	}
+	i, err = testCart.GetTotalPrice()
+	if err != nil {
+		t.Errorf("Error returned %s", err.Error())
+	}
+	if i != 80 {
+		t.Errorf("Incorrect value in cart -should be 80, actual %d", i)
+	}
+	err = testCart.Scan("Q")
+	if err != nil {
+		t.Errorf("Error returned on scan %s", err.Error())
+	}
+	i, err = testCart.GetTotalPrice()
+	if err == nil {
+		t.Errorf("Error NOT returned with invalid item Q in basket")
+	}
+	if i != 0 {
+		t.Errorf("Incorrect value in cart -should be 0, actual %d", i)
+	}
+}

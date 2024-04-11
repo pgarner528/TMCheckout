@@ -39,8 +39,8 @@ func (c *SimpleCheckout) GetTotalPrice() (int, error) {
 		return 0, nil
 	}
 	iTotal := 0
-	for item, val := range c.cart {
-		iItemValue, err := c.Pricing.ItemPrice(item, val)
+	for item, count := range c.cart {
+		iItemValue, err := c.Pricing.ItemPrice(item, count)
 		if err != nil {
 			return 0, err
 		}

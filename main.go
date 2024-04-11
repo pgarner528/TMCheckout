@@ -8,10 +8,12 @@ import (
 
 func main() {
 	var testCart checkout.Totaliser = &checkout.SimpleCheckout{
-		Pricing: pricing.NominalPricer{},
+		Pricing: pricing.SimplePricer{},
 	}
 	testCart.Scan("A")
 	testCart.Scan("B")
+	testCart.Scan("A")
+	testCart.Scan("Q")
 	i, err := testCart.GetTotalPrice()
 	if err != nil {
 		fmt.Println(err.Error())

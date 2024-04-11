@@ -90,7 +90,7 @@ type AddItem struct {
 }
 
 func TestMultibuyPricing(t *testing.T) {
-	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.MultibuyPricer{}}
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.NewMultibuyPricer()}
 	testSlice := []AddItem{
 		{item: "A", runningTotal: 50},
 		{item: "B", runningTotal: 80},

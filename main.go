@@ -8,7 +8,7 @@ import (
 
 func main() {
 	var testCart checkout.Totaliser = &checkout.SimpleCheckout{
-		Pricing: pricing.MultibuyPricer{},
+		Pricing: pricing.NewMultibuyPricer(),
 	}
 	testCart.Scan("A")
 	testCart.Scan("B")

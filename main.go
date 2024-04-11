@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"TMCheckout/checkout"
+	"fmt"
+)
 
 func main() {
-	fmt.Println("Checkout")
+	testCart := checkout.SimpleCheckout{}
+	testCart.Scan("A")
+	testCart.Scan("B")
+	i, _ := testCart.GetTotalPrice()
+	fmt.Println("Total", i)
 }

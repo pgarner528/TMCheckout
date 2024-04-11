@@ -34,3 +34,15 @@ func TestAddItemWithClear(t *testing.T) {
 		t.Errorf("Incorrect value in cart -should be 1")
 	}
 }
+
+func TestNoPricing(t *testing.T) {
+	var testCart Totaliser = &SimpleCheckout{}
+	testCart.Scan("A")
+	i, err := testCart.GetTotalPrice()
+	if err == nil {
+		t.Errorf("No pricer created but not reported")
+	}
+	if i != 0 {
+		t.Errorf("Incorrect value in cart -should be 0")
+	}
+}

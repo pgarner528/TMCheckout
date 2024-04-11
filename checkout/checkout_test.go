@@ -1,9 +1,12 @@
 package checkout
 
-import "testing"
+import (
+	"TMCheckout/pricing"
+	"testing"
+)
 
 func TestAddItem(t *testing.T) {
-	var testCart Totaliser = &SimpleCheckout{}
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.NominalPricer{}}
 	testCart.Scan("A")
 	i, _ := testCart.GetTotalPrice()
 	if i != 1 {
@@ -12,7 +15,7 @@ func TestAddItem(t *testing.T) {
 }
 
 func TestAddItems(t *testing.T) {
-	var testCart Totaliser = &SimpleCheckout{}
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.NominalPricer{}}
 	testCart.Scan("A")
 	testCart.Scan("B")
 	i, _ := testCart.GetTotalPrice()
@@ -22,7 +25,7 @@ func TestAddItems(t *testing.T) {
 }
 
 func TestAddItemWithClear(t *testing.T) {
-	var testCart Totaliser = &SimpleCheckout{}
+	var testCart Totaliser = &SimpleCheckout{Pricing: pricing.NominalPricer{}}
 	testCart.Scan("A")
 	testCart.Clear()
 	testCart.Scan("B")

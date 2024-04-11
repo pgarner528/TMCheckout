@@ -1,6 +1,8 @@
 package checkout
 
 import (
+	"TMCheckout/pricing"
+	"errors"
 	"strings"
 )
 
@@ -11,7 +13,8 @@ type Totaliser interface {
 }
 
 type SimpleCheckout struct {
-	cart map[string]int
+	cart    map[string]int
+	Pricing pricing.Pricer
 }
 
 func (c *SimpleCheckout) Scan(item string) error {
@@ -29,13 +32,19 @@ func (c *SimpleCheckout) Scan(item string) error {
 }
 
 func (c *SimpleCheckout) GetTotalPrice() (int, error) {
-	// Everything has a nominal value of 1 for the moment
+	if c.Pricing == nil {
+		return 0, errors.New("no pricing available")
+	}
 	if c.cart == nil {
 		return 0, nil
 	}
 	iTotal := 0
-	for _, val := range c.cart {
-		iTotal += val
+	for item, val := range c.cart {
+		iItemValue, err := c.Pricing.ItemPrice(item, val)
+		if err != nil {
+			return 0, err
+		}
+		iTotal += iItemValue
 	}
 	return iTotal, nil
 }
